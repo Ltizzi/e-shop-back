@@ -1,16 +1,16 @@
 
 package com.ltizzi.ecommerce.api.Controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ltizzi.ecommerce.api.Model.Compra;
 import com.ltizzi.ecommerce.api.Model.EstadoDeCompra;
 import com.ltizzi.ecommerce.api.Model.ShopOrder;
 import com.ltizzi.ecommerce.api.Model.Stock;
+import com.ltizzi.ecommerce.api.Model.Usuario;
 import com.ltizzi.ecommerce.api.Service.ICompraService;
 import com.ltizzi.ecommerce.api.Service.IEstadoDeCompraService;
 import com.ltizzi.ecommerce.api.Service.IShopOrderService;
 import com.ltizzi.ecommerce.api.Service.IStockService;
+import com.ltizzi.ecommerce.api.Service.IUsuarioService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +42,10 @@ public class CompraController {
     @Autowired
     private IShopOrderService orderServ;
     
-    private ObjectMapper mapper = new ObjectMapper();
+    @Autowired
+    private IUsuarioService userServ;
+    
+    
     
     SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
@@ -59,13 +62,18 @@ public class CompraController {
         return compraServ.getCompra(id);
     }
     
+    @GetMapping("/compra/buscarBy")
+    @ResponseBody
+    public List<Compra> buscarCompraByUser(@RequestParam String usuario){
+        Usuario user = userServ.getByUsuario(usuario);
+        return compraServ.getByUser(user);
+    }
+    
     @PostMapping("/compra/new")
-    public void crearCompra(@RequestBody Compra comp) throws JsonProcessingException {
+    public void crearCompra(@RequestBody Compra comp) {
         List<ShopOrder> items = comp.getItems();
         List<Stock> stocks = stockServ.getStock();
         EstadoDeCompra edc = edcServ.buscarEstado(3L);
-
-  
         Double monto = 0.00;
         Date fecha = new Date();
         

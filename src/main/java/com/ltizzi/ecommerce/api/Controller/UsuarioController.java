@@ -6,6 +6,9 @@ import com.ltizzi.ecommerce.api.Service.IUsuarioService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,6 +26,11 @@ public class UsuarioController {
     @Autowired
     private IUsuarioService userServ;
     
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+    
     @GetMapping("/user/ver")
     @ResponseBody
     public List<Usuario> getUsers() {
@@ -35,9 +43,21 @@ public class UsuarioController {
         return userServ.getUsuario(id);
     }
     
+    @GetMapping("/user/buscarBy")
+    @ResponseBody
+    public Usuario buscarUsuario(@RequestParam String usuario){
+        return userServ.getByUsuario(usuario);
+    }
+    
     @PostMapping("/user/new")
     public void crearUsuario(@RequestBody Usuario user) {
+        
+//        BCryptPasswordEncoder pass = (BCryptPasswordEncoder) passwordEncoder();
+//        String password = user.getPassword();
+//        user.setPassword(pass.encode(password));
+        
         userServ.saveUsuario(user);
+        userServ.addRolToUser(user.getUsuario(), "ROL_USER");
     }
     
     @DeleteMapping("/user/delete")

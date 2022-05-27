@@ -1,5 +1,9 @@
 package com.ltizzi.ecommerce.api;
 
+import com.ltizzi.ecommerce.api.Model.Rol;
+import com.ltizzi.ecommerce.api.Model.Usuario;
+import com.ltizzi.ecommerce.api.Service.IUsuarioService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -34,5 +38,22 @@ public class ECommerceApiApplication {
                 PasswordEncoder passwordEncoder() {
                     return new BCryptPasswordEncoder();
                 }
+                
+//                @Bean
+//                CommandLineRunner run (IUsuarioService userServ) {
+//                    return args -> {
+////                        userServ.saveRol(new Rol(null, "ROL_USER"));
+////                        userServ.saveRol(new Rol(null, "ROL_ADMIN"));
+////                        userServ.saveRol(new Rol(null, "ROL_SUPERADMIN"));
+////                        
+////                        userServ.addRolToUser("ltizzi", "ROL_ADMIN");
+////                        userServ.addRolToUser("ltizzi", "ROL_SUPERADMIN");
+////                          Usuario ltizzi = userServ.getUsuario(1L);
+////                          BCryptPasswordEncoder pass = (BCryptPasswordEncoder) passwordEncoder();
+////                          String password = pass.encode("password").toString();
+////                          ltizzi.setPassword(password);
+////                          userServ.editUsuario(ltizzi);
+//                    };
+//                }
 
 }

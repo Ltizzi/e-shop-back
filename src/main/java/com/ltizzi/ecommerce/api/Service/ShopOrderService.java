@@ -2,6 +2,7 @@
 package com.ltizzi.ecommerce.api.Service;
 
 import com.ltizzi.ecommerce.api.Model.ShopOrder;
+import com.ltizzi.ecommerce.api.Model.Usuario;
 import com.ltizzi.ecommerce.api.Repository.ShopOrderRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,12 @@ public class ShopOrderService implements IShopOrderService {
         }
         return filtradas;
     }
+
+    @Override
+    public List<ShopOrder> buscarByUser(Usuario user) {
+        return orderRepo.findByUser(user);
+    }
+    
     
     
     

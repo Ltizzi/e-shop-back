@@ -4,9 +4,11 @@ package com.ltizzi.ecommerce.api.Controller;
 import com.ltizzi.ecommerce.api.Model.Carrito;
 import com.ltizzi.ecommerce.api.Model.EstadoDeCompra;
 import com.ltizzi.ecommerce.api.Model.ShopOrder;
+import com.ltizzi.ecommerce.api.Model.Usuario;
 import com.ltizzi.ecommerce.api.Service.ICarritoService;
 import com.ltizzi.ecommerce.api.Service.IEstadoDeCompraService;
 import com.ltizzi.ecommerce.api.Service.IShopOrderService;
+import com.ltizzi.ecommerce.api.Service.IUsuarioService;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,9 @@ public class ShopOrderController {
     @Autowired
     private IEstadoDeCompraService edcServ;
     
+    @Autowired
+    private IUsuarioService userServ;
+    
     
     @GetMapping("/order/ver")
     @ResponseBody
@@ -48,8 +53,15 @@ public class ShopOrderController {
     
     @GetMapping("/order/findByUser")
     @ResponseBody
-    public List<ShopOrder> buscarPorUsuario(@RequestParam Long id) {
+    public List<ShopOrder> buscarPorUsuarioId(@RequestParam Long id) {
         return orderServ.buscarByUserId(id);
+    }
+    
+    @GetMapping("/order/buscarBy")
+    @ResponseBody
+    public List<ShopOrder> buscarByUser(@RequestParam String usuario) {
+        Usuario user = userServ.getByUsuario(usuario);
+        return orderServ.buscarByUser(user);
     }
     
     @PostMapping("/order/new")

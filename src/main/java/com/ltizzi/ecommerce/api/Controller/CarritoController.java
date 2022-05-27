@@ -3,8 +3,10 @@ package com.ltizzi.ecommerce.api.Controller;
 
 import com.ltizzi.ecommerce.api.Model.Carrito;
 import com.ltizzi.ecommerce.api.Model.Producto;
+import com.ltizzi.ecommerce.api.Model.Usuario;
 import com.ltizzi.ecommerce.api.Service.ICarritoService;
 import com.ltizzi.ecommerce.api.Service.IProductoService;
+import com.ltizzi.ecommerce.api.Service.IUsuarioService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class CarritoController {
                 @Autowired
                 private ICarritoService cartServ;
                 
+                @Autowired
+                private IUsuarioService userServ;
+                
                 
                @GetMapping("/cart/ver")
                @ResponseBody
@@ -40,6 +45,12 @@ public class CarritoController {
                @ResponseBody
                public Carrito buscarCarrito(@RequestParam Long id) {
                    return cartServ.buscarCarrito(id);
+               }
+               
+               @GetMapping("cart/buscarBy")
+               public List<Carrito> buscarByUser(@RequestParam String usuario){
+                   Usuario user = userServ.getByUsuario(usuario);
+                   return cartServ.buscarByUser(user);
                }
 
                @PostMapping("/cart/new")

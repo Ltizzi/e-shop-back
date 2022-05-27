@@ -18,6 +18,8 @@ public interface IUsuarioService {
     
     public Usuario getUsuario(Long id);
     
+    public Usuario getByUsuario(String usuario);
+    
     //
     
     

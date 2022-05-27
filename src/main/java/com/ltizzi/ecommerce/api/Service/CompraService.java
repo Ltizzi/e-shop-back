@@ -2,6 +2,7 @@
 package com.ltizzi.ecommerce.api.Service;
 
 import com.ltizzi.ecommerce.api.Model.Compra;
+import com.ltizzi.ecommerce.api.Model.Usuario;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,17 @@ public class CompraService implements ICompraService{
         Compra compra = compraRepository.findById(id).orElse(null);
         return compra;
     }
+
+    @Override
+    public List<Compra> getByUser(Usuario user) {
+        
+        List<Compra> compras = compraRepository.findByUser(user);
+        
+        return compras;
+
+    }
         
         
+    
     
 }

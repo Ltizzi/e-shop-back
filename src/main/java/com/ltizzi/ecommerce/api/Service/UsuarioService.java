@@ -63,6 +63,25 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
         Usuario user = usuarioRepository.findById(id).orElse(null);
         return user;
     }
+
+    @Override
+    public Usuario getByUsuario(String usuario) {
+        
+         Usuario user = usuarioRepository.findByUsuario(usuario);
+         
+            if ( user == null) {
+                log.error("Usuario no encontrado en la base de datos");
+                throw new UsernameNotFoundException("Usuario no encontrado en la base de datos");
+            }
+        
+            else {
+               log.info("Usuario encontrado en la base de datos: {}", usuario);
+            }
+            
+            return user;
+    }
+    
+    
     
     
     @Override
