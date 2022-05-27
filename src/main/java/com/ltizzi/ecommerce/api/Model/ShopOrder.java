@@ -2,9 +2,7 @@
 package com.ltizzi.ecommerce.api.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,38 +10,38 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor
 @Entity
-public class Compra {
+public class ShopOrder {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)    
-    private Long compra_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long order_id;
     
-    @OneToMany(fetch = FetchType.LAZY)
+    private Double total_gastado;
+    private int cantidad;
+    
+    @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private List<ShopOrder> items = new ArrayList<>();
+    private Producto producto;
 
-    
-    private Double monto;
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", nullable= true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Usuario user;
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+
+    private LocalDate fecha;
     
-   
-   
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinColumn(name="estado_id", nullable = false)
+    private EstadoDeCompra estado;
+    
     
 }

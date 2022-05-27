@@ -29,7 +29,7 @@ public class CarritoController {
                 private ICarritoService cartServ;
                 
                 
-               @GetMapping("/cart/get")
+               @GetMapping("/cart/ver")
                @ResponseBody
                public List<Carrito> getCarritos() {
                    return cartServ.getCarritos();

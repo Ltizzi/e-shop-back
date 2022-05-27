@@ -1,10 +1,15 @@
 
 package com.ltizzi.ecommerce.api.Controller;
 
-import com.ltizzi.ecommerce.api.Model.Carrito;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ltizzi.ecommerce.api.Model.Compra;
+import com.ltizzi.ecommerce.api.Model.EstadoDeCompra;
+import com.ltizzi.ecommerce.api.Model.ShopOrder;
 import com.ltizzi.ecommerce.api.Model.Stock;
 import com.ltizzi.ecommerce.api.Service.ICompraService;
+import com.ltizzi.ecommerce.api.Service.IEstadoDeCompraService;
+import com.ltizzi.ecommerce.api.Service.IShopOrderService;
 import com.ltizzi.ecommerce.api.Service.IStockService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +36,14 @@ public class CompraController {
     @Autowired
     private IStockService stockServ;
     
+    @Autowired
+    private IEstadoDeCompraService edcServ;
+    
+    @Autowired
+    private IShopOrderService orderServ;
+    
+    private ObjectMapper mapper = new ObjectMapper();
+    
     SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
     
@@ -47,13 +60,18 @@ public class CompraController {
     }
     
     @PostMapping("/compra/new")
-    public void crearCompra(@RequestBody Compra comp) {
-        List<Carrito> items = comp.getItems();
+    public void crearCompra(@RequestBody Compra comp) throws JsonProcessingException {
+        List<ShopOrder> items = comp.getItems();
         List<Stock> stocks = stockServ.getStock();
+        EstadoDeCompra edc = edcServ.buscarEstado(3L);
+
+  
         Double monto = 0.00;
         Date fecha = new Date();
         
-        for (Carrito item: items) {
+        for (ShopOrder item: items) {
+            item.setEstado(edc);
+            orderServ.editarShopOrder(item);       
             Long prod_id = item.getProducto().getProducto_id();
             monto+= (item.getTotal_gastado());
             for (Stock stock: stocks) {
@@ -74,10 +92,10 @@ public class CompraController {
     public void borrarCompra(@RequestParam Long id) {
         
         Compra comp = compraServ.getCompra(id);
-        List<Carrito> items = comp.getItems();
+        List<ShopOrder> items = comp.getItems();
         List<Stock> stocks = stockServ.getStock();
         
-        for (Carrito item: items) {
+        for (ShopOrder item: items) {
             Long prod_id = (item.getProducto()).getProducto_id();
             int cant = item.getCantidad();
             
@@ -99,17 +117,17 @@ public class CompraController {
     public void editarCompra(@RequestBody Compra comp, @RequestParam Long id) {
         
         
-        List<Carrito> items = comp.getItems();
+        List<ShopOrder> items = comp.getItems();
         List<Stock> stocks = stockServ.getStock();
-        List<Carrito> old_items = (compraServ.getCompra(id)).getItems();
+        List<ShopOrder> old_items = (compraServ.getCompra(id)).getItems();
         Double monto = 0.00;
         
-        for (Carrito item: items) {
+        for (ShopOrder item: items) {
             Long prod_id = (item.getProducto()).getProducto_id();
             int cant = item.getCantidad();
             monto+= item.getTotal_gastado();
             
-            for (Carrito old_item: old_items) {
+            for (ShopOrder old_item: old_items) {
                 int old_cant = old_item.getCantidad();
                 
                 if (cant > old_cant) {
