@@ -29,7 +29,7 @@ public class ECommerceApiApplication {
                                                                             .allowedHeaders("*")
                                                                             .allowedMethods("*")
                                                                             .allowCredentials(false)
-                                                                            .allowedOrigins("*"); 
+                                                                            .allowedOrigins("https://e-shop-ltizzi.web.app"); 
 			}
 		};
 	}
@@ -39,21 +39,23 @@ public class ECommerceApiApplication {
                     return new BCryptPasswordEncoder();
                 }
                 
-//                @Bean
-//                CommandLineRunner run (IUsuarioService userServ) {
-//                    return args -> {
-////                        userServ.saveRol(new Rol(null, "ROL_USER"));
-////                        userServ.saveRol(new Rol(null, "ROL_ADMIN"));
-////                        userServ.saveRol(new Rol(null, "ROL_SUPERADMIN"));
+                @Bean
+                CommandLineRunner run (IUsuarioService userServ) {
+                    return args -> {
+//                        userServ.saveRol(new Rol(null, "ROL_USER"));
+//                        userServ.saveRol(new Rol(null, "ROL_ADMIN"));
+//                        userServ.saveRol(new Rol(null, "ROL_SUPERADMIN"));
 ////                        
-////                        userServ.addRolToUser("ltizzi", "ROL_ADMIN");
-////                        userServ.addRolToUser("ltizzi", "ROL_SUPERADMIN");
-////                          Usuario ltizzi = userServ.getUsuario(1L);
-////                          BCryptPasswordEncoder pass = (BCryptPasswordEncoder) passwordEncoder();
-////                          String password = pass.encode("password").toString();
-////                          ltizzi.setPassword(password);
-////                          userServ.editUsuario(ltizzi);
-//                    };
-//                }
+//                        userServ.addRolToUser("ltizzi", userServ.getRol(
+//                                2L));
+//                        userServ.addRolToUser("ltizzi", userServ.getRol(
+//                                3L));
+//                          Usuario ltizzi = userServ.getUsuario(37L);
+//                          BCryptPasswordEncoder pass = (BCryptPasswordEncoder) passwordEncoder();
+//                          String password = pass.encode("password").toString();
+//                          ltizzi.setPassword(password);
+//                          userServ.editUsuario(ltizzi);
+                    };
+                }
 
 }

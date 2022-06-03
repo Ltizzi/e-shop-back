@@ -24,7 +24,7 @@ public interface IUsuarioService {
     
     
     
-    public void addRolToUser(String usuario, String nombreRol);
+    public void addRolToUser(String usuario, Rol rol);
     
     public List<Rol> getRoles();
     

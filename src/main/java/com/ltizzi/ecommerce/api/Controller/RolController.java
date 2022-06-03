@@ -7,6 +7,7 @@ import java.util.List;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class RolController {
 
     @Autowired
@@ -54,8 +56,9 @@ public class RolController {
     }
     
     @PostMapping("rol/addtouser")
-    public void addRoltoUser(@RequestBody RoleToUserForm form) {
-        userServ.addRolToUser(form.getUsuario(), form.getRol());
+    public void addRoltoUser(@RequestParam String usuario) {
+        Rol rol = userServ.getRol(2L);
+        userServ.addRolToUser(usuario, rol);
     }
     
     

@@ -144,10 +144,10 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
     
     
      @Override
-    public void addRolToUser(String usuario, String nombreRol) {
-            log.info("Añadiendo el rol {} al usuario {} ", nombreRol, usuario);
+    public void addRolToUser(String usuario, Rol rol) {
+            log.info("Añadiendo el rol {} al usuario {} ", rol.getNombre(), usuario);
             Usuario user = usuarioRepository.findByUsuario(usuario);
-            Rol rol = rolRepo.findByNombre(nombreRol);
+//            Rol rol = rolRepo.findByNombre(nombreRol);
             user.getRoles().add(rol);
     }
     

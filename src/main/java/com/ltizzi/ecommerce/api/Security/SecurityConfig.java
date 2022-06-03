@@ -49,10 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
             CustomAuthenticationFilter caf = new CustomAuthenticationFilter(authenticationManagerBean());
             caf.setFilterProcessesUrl("/api/login");
-            http.cors().and().csrf().disable().
-                    authorizeRequests()
-                            .antMatchers("/**").permitAll()
-                            .anyRequest().authenticated();
+            http.cors().and().csrf().disable();
+            http.anonymous();
+            http.authorizeHttpRequests().antMatchers("/**").permitAll()
+                                                         .anyRequest().authenticated();
             http.addFilter(caf)
                   .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

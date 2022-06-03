@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin
 public class UsuarioController {
     
       
@@ -57,7 +59,7 @@ public class UsuarioController {
 //        user.setPassword(pass.encode(password));
         
         userServ.saveUsuario(user);
-        userServ.addRolToUser(user.getUsuario(), "ROL_USER");
+        userServ.addRolToUser(user.getUsuario(), userServ.getRol(1L));
     }
     
     @DeleteMapping("/user/delete")
